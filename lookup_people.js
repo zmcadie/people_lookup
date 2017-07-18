@@ -11,6 +11,14 @@ const client = new pg.Client({
 });
 
 const name = process.argv.slice(2).join();
+const printFound = (people) => {
+  console.log(`Found ${people.length} person(s) by the name '${name}':`);
+};
+const printPerson = (people) => {
+  people.forEach((person) => {
+    console.log(`- ${person.id}: ${person.first_name} ${person.last_name}, born ${person.birthdate.toString().slice(4, 15)}`);
+  });
+};
 
 client.connect((err) => {
   console.log('searching...');
@@ -21,10 +29,8 @@ client.connect((err) => {
     if (err) {
       return console.error("error running query", err);
     }
-    console.log(`Found ${result.rows.length} person(s) by the name '${name}':`)
-    result.rows.forEach((person) => {
-      console.log(`- ${person.id}: ${person.first_name} ${person.last_name}, born ${person.birthdate.toString().slice(4, 15)}`);
-    });
+    printFound(result.rows);
+    printPerson(result.rows);
     client.end();
   });
 });
