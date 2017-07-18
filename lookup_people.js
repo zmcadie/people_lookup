@@ -13,6 +13,7 @@ const client = new pg.Client({
 const name = process.argv.slice(2).join();
 
 client.connect((err) => {
+  console.log('searching...');
   if (err) {
     return console.error("Connection Error", err);
   }
@@ -20,7 +21,10 @@ client.connect((err) => {
     if (err) {
       return console.error("error running query", err);
     }
-    console.log(result.rows[0].first_name); //output: 1
+    console.log(`Found ${result.rows.length} person(s) by the name '${name}':`)
+    result.rows.forEach((person) => {
+      console.log(`- ${person.id}: ${person.first_name} ${person.last_name}, born ${person.birthdate.toString().slice(4, 15)}`);
+    });
     client.end();
   });
 });
