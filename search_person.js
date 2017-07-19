@@ -23,10 +23,11 @@ const printPerson = (people) => {
 knex.select().from('famous_people')
   .where('first_name', name)
   .orWhere('last_name', name)
-  .asCallback(function(err, rows) {
+  .catch((err) => {
     if (err) {
       return console.error(err);
     }
+  }).then((rows) => {
     printFound(rows);
     printPerson(rows);
   }).then(() => {
