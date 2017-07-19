@@ -33,3 +33,4 @@ knex.select().from('famous_people')
   }).then(() => {
     knex.destroy();
   });
+
