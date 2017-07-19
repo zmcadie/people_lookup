@@ -30,7 +30,7 @@ knex.select().from('famous_people')
   }).then((rows) => {
     printFound(rows);
     printPerson(rows);
-  }).then(() => {
+  }).finally(() => {
     knex.destroy();
   });
 
